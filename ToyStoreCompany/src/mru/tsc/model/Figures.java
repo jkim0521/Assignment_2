@@ -1,4 +1,4 @@
-package mru;
+package mru.tsc.model;
 
 /**
  * Figures class include toys that are action figures(A), dolls(D), 

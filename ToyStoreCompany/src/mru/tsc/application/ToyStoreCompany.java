@@ -1,4 +1,7 @@
-package mru;
+package mru.tsc.application;
+
+import mru.tsc.controller.Navigation;
+import mru.tsc.view.Menu;
 
 /**
  * Program that allows users to add, search, or remove items

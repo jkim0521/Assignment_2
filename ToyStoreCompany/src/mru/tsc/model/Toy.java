@@ -1,4 +1,4 @@
-package mru;
+package mru.tsc.model;
 
 /**
  * The Toy class is the parent of the Figures, Animals, Puzzles, 

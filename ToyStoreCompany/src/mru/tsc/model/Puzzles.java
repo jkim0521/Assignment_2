@@ -1,4 +1,4 @@
-package mru;
+package mru.tsc.model;
 
 /**
  * Puzzles class includes a char to represent the type of puzzle

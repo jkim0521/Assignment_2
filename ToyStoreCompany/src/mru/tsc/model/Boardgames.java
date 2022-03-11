@@ -1,4 +1,4 @@
-package mru;
+package mru.tsc.model;
 
 /**
  * Boardgames class must have a defined minimum and maximum amount of players

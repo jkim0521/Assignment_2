@@ -1,4 +1,4 @@
-package mru;
+package mru.tsc.model;
 
 /**
  * Animals class includes a String to represent the material of

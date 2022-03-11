@@ -1,4 +1,4 @@
-package mru;
+package mru.tsc.view;
 import java.util.Scanner;
 
 /**
@@ -14,7 +14,7 @@ public class Menu {
 	/**
 	 * Prints out the welcome message, shown upon starting the program
 	 */
-	void welcomeMessage() {
+	public void welcomeMessage() {
 		System.out.println("     **********************************");
 		System.out.println("     *  WELCOME TO TOY STORE COMPANY  *");
 		System.out.println("     **********************************");
@@ -24,7 +24,7 @@ public class Menu {
 	 * Prints out the main menu options
 	 * @return user input for menu navigation
 	 */
-	String mainMenu() {
+	public String mainMenu() {
 		String choice = "";
 		System.out.println("\nHow may we help you?");
 		System.out.println("\n(1) Search Inventory and Purchase Toy");
@@ -40,7 +40,7 @@ public class Menu {
 	 * Prints out the search menu options
 	 * @return user input for menu navigation
 	 */
-	String searchMenu() {
+	public String searchMenu() {
 		String choice = "";
 		System.out.println("\nFind Toys With: ");
 		System.out.println("\n(1) Serial Number (SN)");
@@ -52,12 +52,33 @@ public class Menu {
 		return choice;
 	}
 	
+	public String searchSN() {
+		String sn = "";
+		System.out.println("Enter SN: ");
+		sn = option.nextLine();
+		return sn;
+	}
+	
+	public String searchName() {
+		String name = "";
+		System.out.println("Enter Name: ");
+		name = option.nextLine();
+		return name;
+	}
+	
+	public String searchType() {
+		String type = "";
+		System.out.println("Enter Type: ");
+		type = option.nextLine();
+		return type;
+	}
+	
 	/**
 	 * Method to re-prompt the user for input if initial
 	 * input was incorrect
 	 * @return
 	 */
-	String badInput() {
+	public String badInput() {
 	    String choice = "";
 		System.out.println("\nEnter Option: ");
 		choice = option.nextLine();
@@ -67,7 +88,7 @@ public class Menu {
 	/**
 	 * Prints out the exit message when a user quits program
 	 */
-	void exitMessage() {
+	public void exitMessage() {
 		System.out.println("\nSaving data into database...");
 		System.out.println("\n*********** THANKS FOR VISITING US! ***********");
 		option.close();
