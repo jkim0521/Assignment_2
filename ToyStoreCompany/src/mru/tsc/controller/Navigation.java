@@ -1,4 +1,6 @@
 package mru.tsc.controller;
+import mru.tsc.model.Figures;
+import mru.tsc.model.Toy;
 import mru.tsc.view.Menu;
 
 /**
@@ -33,6 +35,7 @@ public class Navigation {
 					}
 				case "2": {
 					//Add Toy
+					addToy();
 					break;
 					}
 				case "3": {
@@ -113,6 +116,84 @@ public class Navigation {
 
 		}
 		return searchVal;
-
+	}
+	
+	/**
+	 * Method to add a new toy to the database
+	 * Creates a new toy object, with its type determined by the 
+	 * significant digit of the serial number
+	 */
+	private void addToy() {
+		//boolean decision = true;
+		boolean verified;
+		
+		//Fulfillment of Toy
+		String serialNumber = menu.enterSN();
+		//checks to see if the serial number entered by the user is 10 digits long
+		verified = menu.verifySN(serialNumber);
+		if(!verified) {
+			System.out.println("This is an invalid Serial Number, please double-check that the number is exactly 10 digits long!");
+			mainMenu();
+		}
+		//Enter a valid toy name
+		String toyName = menu.enterName();
+		if(toyName.isEmpty()) {
+			System.out.println("This is an invalid name for a toy, a name must contain something!");
+			mainMenu();
+		}
+		//Enter a valid toy brand
+		String brandName = menu.enterBrand();
+		if(brandName.isEmpty()) {
+			System.out.println("This is an invalid brand name, the brand name cannot be empty!");
+			mainMenu();
+		}
+		//Enter a valid price, higher than zero and rounded to the nearest hundredth
+		double price = menu.enterPrice();
+		if(price <= 0) {
+			System.out.println("The Toy cannot have a price below or at 0.00! Please enter a valid price.");
+			mainMenu();
+		}
+		//Enter a valid available count, higher than zero
+		int availableCount = menu.enterCount();
+		if(availableCount <= 0) {
+			System.out.println("This is an invalid count! Please enter an integer that is higher than 0.");
+			mainMenu();
+		}
+		//Enter a valid age that is appropriate for the toy, higher than zero
+		int ageRange = menu.enterAge();
+		if(ageRange <= 0) {
+			System.out.println("This is an invalid age! Please enter an integer that is higher than 0.");
+			mainMenu();
+		}
+		
+		
+		//Determines the type of toy that is being entered based on significant digit of the serial number
+		int toyType = menu.verifyType(serialNumber);
+		if(toyType == 0 || toyType == 1) {
+			char classification = menu.enterClassification();
+			if(classification == 'Z') {
+				System.out.println("This is an invalid classification! Please enter either A, D, or H.");
+				mainMenu();
+			}
+			//Create new Figure object
+			Figures figure = new Figures(serialNumber, toyName, brandName, price, availableCount, ageRange, classification);
+		}
+		else if(toyType == 2 || toyType == 3) {
+			String material = menu.enterMaterial();
+			if(material.isEmpty()) {
+				System.out.println("This is an invalid input, material cannot be empty!");
+				mainMenu();
+			}
+			
+		}
+		else if(toyType >=4 && toyType <=6) {
+			
+		}
+		else if(toyType >= 7) {
+			
+		}
+		else {
+			mainMenu();
+		}
 	}
 }
