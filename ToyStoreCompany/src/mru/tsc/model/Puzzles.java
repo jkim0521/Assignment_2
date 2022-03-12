@@ -8,24 +8,22 @@ package mru.tsc.model;
  * @author Joseph Kim
  */
 public class Puzzles extends Toy{
-	private String serialNumber;
 	private char puzzleType;
 	
-	//Accessor methods of a puzzle
-	public String getSerialNumber() {
-		return serialNumber;
-	}
-	
-	public char getPuzzleType() {
-		return puzzleType;
-	}
-	
-	//Mutator methods of a puzzle
-	public void setSerialNumber(String serialNumber) {
-		this.serialNumber = serialNumber;
-	}
-	
-	public void setPuzzleType(char puzzleType) {
+	//Constructor for new Puzzle object
+	public Puzzles (String serialNumber, String toyName, String brandName, double price, int availableCount, int ageRange, char puzzleType) {
+		super(serialNumber, toyName, brandName, price, availableCount, ageRange);
 		this.puzzleType = puzzleType;
+	}
+	
+	//Accessor methods of a puzzle	
+	public char getPuzzleType() { return puzzleType; }
+	
+	//Mutator methods of a puzzle	
+	public void setPuzzleType(char puzzleType) { this.puzzleType = puzzleType; }
+	
+	//Puzzles toString method
+	public String toString() {
+		return serialNumber +"," +toyName +"," +brandName +"," +price +"," +availableCount +",+" +ageRange +"," +puzzleType;
 	}
 }

@@ -7,42 +7,36 @@ package mru.tsc.model;
  * @author Joseph Kim
  */
 public class Boardgames extends Toy{
-	private String serialNumber;
 	private int minimumPlayer;
 	private int maximumPlayer;
 	private String designerName;
 	
-	//Accessor methods of a board game
-	public String getSerialNumber() {
-		return serialNumber;
-	}
-	
-	public int getMinimum() {
-		return minimumPlayer;
-	}
-	
-	public int getMaximum() {
-		return maximumPlayer;
-	}
-	
-	public String getDesignerName() {
-		return designerName;
-	}
-	
-	//Mutator methods of a board game
-	public void setSerialNumber(String serialNumber) {
-		this.serialNumber = serialNumber;
-	}
-	
-	public void setMinimum(int minimumPlayer) {
+	//Constructor for new Board Game object
+	public Boardgames (String serialNumber, String toyName, String brandName, double price, int availableCount, 
+			           int ageRange, int minimumPlayer, int maximumPlayer, String designerName) {
+		super(serialNumber, toyName, brandName, price, availableCount, ageRange);
 		this.minimumPlayer = minimumPlayer;
-	}
-	
-	public void setMaximum(int maximumPlayer) {
 		this.maximumPlayer = maximumPlayer;
+		this.designerName = designerName;
 	}
 	
-	public void setDesignerName (String designerName) {
-		this.designerName = designerName;
+	//Accessor methods of a board game	
+	public int getMinimum() { return minimumPlayer; }
+	
+	public int getMaximum() { return maximumPlayer; }
+	
+	public String getDesignerName() { return designerName; }
+	
+	//Mutator methods of a board game	
+	public void setMinimum(int minimumPlayer) { this.minimumPlayer = minimumPlayer;	}
+	
+	public void setMaximum(int maximumPlayer) { this.maximumPlayer = maximumPlayer;	}
+	
+	public void setDesignerName (String designerName) {	this.designerName = designerName; }
+	
+	//Boardgames toString method
+	public String toString() {
+		return serialNumber +"," +toyName +"," +brandName +"," +price +"," +availableCount +",+" +ageRange +"," 
+	           +minimumPlayer +"-" +maximumPlayer +"," +designerName;
 	}
 }

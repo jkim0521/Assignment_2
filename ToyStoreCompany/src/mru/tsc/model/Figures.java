@@ -7,24 +7,22 @@ package mru.tsc.model;
  * @author Joseph Kim
  */
 public class Figures extends Toy{
-	private String serialNumber;
 	private char classification;
 	
-	//Accessor methods of a figure
-	public String getSerialNumber() {
-		return serialNumber;
+	//Constructor for new Figure object
+	public Figures (String serialNumber, String toyName, String brandName, double price, int availableCount, int ageRange, char classification) {
+		super(serialNumber, toyName, brandName, price, availableCount, ageRange);
+		this.classification = classification;
 	}
 	
-	public char getClassification() {
-		return classification;
-	}
+	//Accessor methods of a figure	
+	public char getClassification() { return classification; }
 	
 	//Mutator methods of a figure
-	public void setSerialNumber(String serialNumber) {
-		this.serialNumber = serialNumber;
-	}
-
-	public void setClassification(char classification) {
-		this.classification = classification;
+	public void setClassification(char classification) { this.classification = classification; }
+	
+	//Figures toString method
+	public String toString() {
+		return serialNumber +"," +toyName +"," +brandName +"," +price +"," +availableCount +",+" +ageRange +"," +classification;
 	}
 }

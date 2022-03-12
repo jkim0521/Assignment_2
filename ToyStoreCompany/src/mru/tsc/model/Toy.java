@@ -8,51 +8,46 @@ package mru.tsc.model;
  *
  */
 public class Toy {
-	private String toyName;
-	private String brandName;
-	private double price;
-	private int availableCount;
-	private String ageRange;
-
-	//Accessor methods of a toy
-	public String getToyName() {
-		return toyName;
-	}
+	protected String serialNumber;
+	protected String toyName;
+	protected String brandName;
+	protected double price;
+	protected int availableCount;
+	protected int ageRange;
 	
-	public String getBrandName() {
-		return brandName;
-	}
-	
-	public double getPrice() {
-		return price;
-	}
-	
-	public int getAvailableCount() {
-		return availableCount;
-	}
-	
-	public String getAgeRange() {
-		return ageRange;
-	}
-	
-	//Mutator methods of a toy
-	public void setToyName(String toyName) {
+	//Constructor for Toy
+	public Toy (String serialNumber, String toyName, String brandName, double price, int availableCount, int ageRange) {
+		this.serialNumber = serialNumber;
 		this.toyName = toyName;
-	}
-	
-	public void setBrandName(String brandName) {
 		this.brandName = brandName;
-	}
-	
-	public void setPrice(double price) {
 		this.price = price;
-	}
-	
-	public void setAvailableCount(int availableCount) {
 		this.availableCount = availableCount;
-	}
-	
-	public void setAgeRange(String ageRange) {
 		this.ageRange = ageRange;
 	}
+	
+	//Accessor methods of a toy
+	public String serialNumber() { return serialNumber; }
+	
+	public String getToyName() { return toyName; }
+	
+	public String getBrandName() { return brandName; }
+	
+	public double getPrice() { return price; }
+	
+	public int getAvailableCount() { return availableCount; }
+	
+	public int getAgeRange() { return ageRange; }
+	
+	//Mutator methods of a toy
+	public void setSN (String serialNumber) {this.serialNumber = serialNumber;}
+	
+	public void setToyName(String toyName) { this.toyName = toyName; }
+	
+	public void setBrandName(String brandName) { this.brandName = brandName; }
+	
+	public void setPrice(double price) { this.price = price; }
+	
+	public void setAvailableCount(int availableCount) { this.availableCount = availableCount; }
+	
+	public void setAgeRange(int ageRange) { this.ageRange = ageRange; }
 }

@@ -7,33 +7,28 @@ package mru.tsc.model;
  * @author Joseph Kim
  */
 public class Animals extends Toy{
-	private String serialNumber;
 	private String material;
 	private char size;
 	
-	//Accessor methods of an animal
-	public String getSerialNumber() {
-		return serialNumber;
-	}
-	
-	public String getMaterial() {
-		return material;
-	}
-	
-	public char getSize() {
-		return size;
-	}
-
-	//Mutator methods of an animal
-	public void setSerialNumber(String serialNumber) {
-		this.serialNumber = serialNumber;
-	}
-	
-	public void setMaterial(String material) {
+	//Constructor for new Animal object
+	public Animals (String serialNumber, String toyName, String brandName, double price, int availableCount, int ageRange, String material, char size) {
+		super(serialNumber, toyName, brandName, price, availableCount, ageRange);
 		this.material = material;
+		this.size = size;
 	}
 	
-	public void setSize(char size) {
-		this.size = size;
+	//Accessor methods of an animal	
+	public String getMaterial() { return material; }
+	
+	public char getSize() { return size; }
+
+	//Mutator methods of an animal	
+	public void setMaterial(String material) { this.material = material; }
+	
+	public void setSize(char size) { this.size = size; }
+	
+	//Animals toString method
+	public String toString() {
+		return serialNumber +"," +toyName +"," +brandName +"," +price +"," +availableCount +",+" +ageRange +"," +material +"," +size;
 	}
 }
