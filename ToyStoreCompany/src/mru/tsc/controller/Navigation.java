@@ -124,9 +124,8 @@ public class Navigation {
 	/**
 	 * Method to search toy  catalogue for a toy using a given seach value.
 	 * @param searchVal - The value the user wants to search with.
-	 * @return - True or false, depending on if the value is found.
 	 */
-	private boolean searchToy(String searchVal) {
+	private void searchToy(String searchVal) {
 		//variables
 		boolean found = false;
 		String item = "";
@@ -139,6 +138,7 @@ public class Navigation {
 					item = inventory.toyCatalogue().get(i).toString();
 					if(item.contains(searchVal)) {
 						found = true;
+						purchaseToy(i);
 					} 
 					else {
 						found = false;
@@ -146,10 +146,32 @@ public class Navigation {
 				}
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			System.out.println("Something went wrong.");
 		}
-		return found;
+	}
+	
+	/*
+	 * Method used to decrement the stock of a toy when purchased.
+	 * @param index - Index of the toy in the toyCatalogue Arraylist.
+	 */
+	private void purchaseToy(int index) {
+		//create a copy of String[] in Arraylist for ease of access
+		String [] stock;
+		int newStock = 0;
+		try {
+			//find amound of toys in stock
+			stock = inventory.toyCatalogue().get(index);
+			inventory.toyCatalogue().remove(index);
+			
+			//decrement stock, change value in array and store back into Arraylist
+			newStock = Integer.parseInt(stock[4]) - 1;
+			stock[4] = Integer.toString(newStock);
+			inventory.toyCatalogue().add(index, stock);
+		} 
+		catch (IOException e) {
+			System.out.println("Something went wrong.");
+		}
+		
 	}
 	
 	/**
