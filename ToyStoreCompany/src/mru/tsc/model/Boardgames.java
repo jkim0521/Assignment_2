@@ -4,7 +4,7 @@ package mru.tsc.model;
  * Boardgames class must have a defined minimum and maximum amount of players
  * as well as a defined list of designers. 
  * Board games can have a 7, 8, or 9 as the first digit in the serial number.
- * @author Joseph Kim
+ * @author Joseph Kim & Skylar Wiltse
  */
 public class Boardgames extends Toy{
 	private int minimumPlayer;

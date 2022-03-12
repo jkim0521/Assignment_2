@@ -2,6 +2,7 @@ package mru.tsc.controller;
 import mru.tsc.model.Figures;
 import mru.tsc.model.Toy;
 import mru.tsc.view.Menu;
+import java.io.IOException;
 
 /**
  * The Navigation class allows for navigation of the menus of the ToyStore Company.
@@ -11,6 +12,7 @@ import mru.tsc.view.Menu;
  *
  */
 public class Navigation {
+	FileHandling inventory = new FileHandling();
 	Menu menu = new Menu();
 
 	/**
@@ -88,6 +90,7 @@ public class Navigation {
 				case "2": {
 					//Name Search
 					searchVal = menu.searchName();
+					searchToy(searchVal);
 					break;
 				}
 				case "3": {
@@ -106,7 +109,7 @@ public class Navigation {
 					if(Integer.parseInt(choice)>4 || Integer.parseInt(choice)<1) {
 						System.out.println("This input is invalid!");
 					}
-					//input is not an integer, prints the appropriate message
+				//input is not an integer, prints the appropriate message
 				} catch(NumberFormatException e){
 					System.out.println("Please enter an integer value!");
 					choice = "";
@@ -116,6 +119,37 @@ public class Navigation {
 
 		}
 		return searchVal;
+	}
+	
+	/**
+	 * Method to search toy  catalogue for a toy using a given seach value.
+	 * @param searchVal - The value the user wants to search with.
+	 * @return - True or false, depending on if the value is found.
+	 */
+	private boolean searchToy(String searchVal) {
+		//variables
+		boolean found = false;
+		String item = "";
+		//try parsing catalogue for item
+		try {
+			//parse Arraylist
+			for(int i = 0; i < inventory.toyCatalogue().size(); i++) {
+				//parse String array at each index to check for searchVal
+				for(int j = 0; j < inventory.toyCatalogue().get(i).length; j++) {
+					item = inventory.toyCatalogue().get(i).toString();
+					if(item.contains(searchVal)) {
+						found = true;
+					} 
+					else {
+						found = false;
+					}
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Something went wrong.");
+		}
+		return found;
 	}
 	
 	/**

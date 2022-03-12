@@ -6,7 +6,7 @@ import java.util.Scanner;
  * The Menu class deals with printing out various messages
  * including the welcome message and menu options. User input 
  * is gathered here and is returned to the Navigation class
- * @author Joseph Kim
+ * @author Joseph Kim & Skylar Wiltse
  *
  */
 public class Menu {

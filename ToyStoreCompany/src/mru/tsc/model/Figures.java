@@ -4,7 +4,7 @@ package mru.tsc.model;
  * Figures class include toys that are action figures(A), dolls(D), 
  * or historical figurines(H). 
  * Figures have either a 0 or 1 as the first digit in the serial number.
- * @author Joseph Kim
+ * @author Joseph Kim & Skylar Wiltse
  */
 public class Figures extends Toy{
 	private char classification;
