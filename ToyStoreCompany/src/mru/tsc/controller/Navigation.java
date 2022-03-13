@@ -1,6 +1,7 @@
 package mru.tsc.controller;
 import mru.tsc.exceptions.InputPriceException;
 import mru.tsc.exceptions.InvalidCharException;
+import mru.tsc.exceptions.InvalidSerialNumberException;
 import mru.tsc.exceptions.LessThanZeroException;
 
 import java.io.File;
@@ -56,6 +57,7 @@ public class Navigation {
 					}
 				case "3": {
 					//Remove toy
+					removeToy();
 					break;
 					}
 				case "4": {
@@ -83,7 +85,7 @@ public class Navigation {
 	}
 
 	/**
-	 * Outputs options and allows navigation of the search menu
+	 * Outputs options and allows navigation of the search sub menu
 	 */
 	private String searchMenu() throws NumberFormatException{
 		String choice = "";
@@ -189,20 +191,51 @@ public class Navigation {
 	}
 	
 	/**
+	 * Method to select a particular toy to remove from the database.
+	 * Prompts the user to enter a valid serial number and 
+	 * requests if the user would like to remove the toy.
+	 */
+	private void removeToy() {
+		boolean verified;
+		
+		String serialNumber = menu.enterSN();
+		verified = menu.verifySN(serialNumber);
+		try {
+			if(!verified) {
+				throw new InvalidSerialNumberException();
+			}
+		}
+		catch(InvalidSerialNumberException isne) {
+			System.out.println(isne.getMessage());
+			mainMenu();
+		}
+		try {
+			inventory.removeFromFile(serialNumber);
+		} catch (IOException e) {
+			System.out.println("");
+		}
+		removeSuccess();
+	}
+	
+	/**
 	 * Method to add a new toy to the database
 	 * Creates a new toy object, with its type determined by the 
 	 * significant digit of the serial number
 	 */
 	private void addToy() {
-		//boolean decision = true;
 		boolean verified;
 		
-		//Fulfillment of Toy
+		//Fulfillment of Toy constructor
 		String serialNumber = menu.enterSN();
 		//checks to see if the serial number entered by the user is 10 digits long
 		verified = menu.verifySN(serialNumber);
-		if(!verified) {
-			System.out.println("This is an invalid Serial Number, please double-check that the number is exactly 10 digits long!");
+		try {
+			if(!verified) {
+				throw new InvalidSerialNumberException();
+			}
+		}
+		catch(InvalidSerialNumberException isne) {
+			System.out.println(isne.getMessage());
 			mainMenu();
 		}
 		//Enter a valid toy name
@@ -391,6 +424,22 @@ public class Navigation {
 	 */
 	public void addSuccess() {
 		System.out.println("\nNew Toy Added!");
+		System.out.println("\nPress Enter to Continue...");
+		try {
+			System.in.read();
+		}
+		catch(Exception e) {
+			System.out.println("An error has occurred! Please try again.");
+		} 
+		mainMenu();
+	}
+	
+	/**
+	 * Prints a message upon adding a new toy to the text file before
+	 * Prompting the user to press enter to continue which then
+	 * redirects to the main menu
+	 */
+	public void removeSuccess() {
 		System.out.println("\nPress Enter to Continue...");
 		try {
 			System.in.read();
