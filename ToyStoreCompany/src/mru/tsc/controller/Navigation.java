@@ -1,8 +1,21 @@
 package mru.tsc.controller;
+import mru.tsc.exceptions.InputPriceException;
+import mru.tsc.exceptions.InvalidCharException;
+import mru.tsc.exceptions.LessThanZeroException;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import mru.tsc.exceptions.EmptyInputException;
+import mru.tsc.exceptions.MaximumPlayerException;
+import mru.tsc.model.Animals;
+import mru.tsc.model.Boardgames;
 import mru.tsc.model.Figures;
+import mru.tsc.model.Puzzles;
 import mru.tsc.model.Toy;
 import mru.tsc.view.Menu;
-import java.io.IOException;
 
 /**
  * The Navigation class allows for navigation of the menus of the ToyStore Company.
@@ -12,8 +25,9 @@ import java.io.IOException;
  *
  */
 public class Navigation {
-	FileHandling inventory = new FileHandling();
 	Menu menu = new Menu();
+	FileHandling inventory = new FileHandling();
+	protected final String TOYS = "toys.txt";
 
 	/**
 	 * Outputs options and allows navigation of the main menu.
@@ -193,63 +207,152 @@ public class Navigation {
 		}
 		//Enter a valid toy name
 		String toyName = menu.enterName();
-		if(toyName.isEmpty()) {
-			System.out.println("This is an invalid name for a toy, a name must contain something!");
+		try {
+			if(toyName.isEmpty()) {
+				throw new EmptyInputException();
+			}
+		}
+		catch(EmptyInputException eie) {
+			System.out.println(eie.getMessage());
 			mainMenu();
 		}
 		//Enter a valid toy brand
 		String brandName = menu.enterBrand();
-		if(brandName.isEmpty()) {
-			System.out.println("This is an invalid brand name, the brand name cannot be empty!");
+		try {
+			if(brandName.isEmpty()) {
+				throw new EmptyInputException();
+			}
+		}
+		catch(EmptyInputException eie) {
+			System.out.println(eie.getMessage());
 			mainMenu();
 		}
 		//Enter a valid price, higher than zero and rounded to the nearest hundredth
 		double price = menu.enterPrice();
-		if(price <= 0) {
-			System.out.println("The Toy cannot have a price below or at 0.00! Please enter a valid price.");
-			mainMenu();
+		try {
+			if(price <= 0) {
+				throw new InputPriceException();
+			}
+		}
+		catch(InputPriceException e) {
+			System.out.println(e.getMessage());
 		}
 		//Enter a valid available count, higher than zero
 		int availableCount = menu.enterCount();
-		if(availableCount <= 0) {
-			System.out.println("This is an invalid count! Please enter an integer that is higher than 0.");
+		try {
+			if(availableCount <= 0) {
+				throw new LessThanZeroException();
+			}
+		}
+		catch(LessThanZeroException lze) {
+			System.out.println(lze.getMessage());
 			mainMenu();
 		}
 		//Enter a valid age that is appropriate for the toy, higher than zero
 		int ageRange = menu.enterAge();
-		if(ageRange <= 0) {
-			System.out.println("This is an invalid age! Please enter an integer that is higher than 0.");
+		try {
+			if(ageRange <= 0) {
+				throw new LessThanZeroException();
+			}
+		}
+		catch(LessThanZeroException lze) {
+			System.out.println(lze.getMessage());
 			mainMenu();
 		}
 		
 		
 		//Determines the type of toy that is being entered based on significant digit of the serial number
 		int toyType = menu.verifyType(serialNumber);
+		//Figures
 		if(toyType == 0 || toyType == 1) {
 			char classification = menu.enterClassification();
-			if(classification == 'Z') {
-				System.out.println("This is an invalid classification! Please enter either A, D, or H.");
+			try {
+				if(classification == 'Z') {
+					throw new InvalidCharException();
+				}
+			}
+			catch(InvalidCharException ice) {
+				System.out.println(ice.getMessage());
 				mainMenu();
 			}
 			//Create new Figure object
 			Figures figure = new Figures(serialNumber, toyName, brandName, price, availableCount, ageRange, classification);
 		}
+		//Animals
 		else if(toyType == 2 || toyType == 3) {
 			String material = menu.enterMaterial();
 			if(material.isEmpty()) {
 				System.out.println("This is an invalid input, material cannot be empty!");
 				mainMenu();
 			}
-			
+			char size = menu.enterSize();
+			try {
+				if(size == 'Z') {
+					throw new InvalidCharException();
+				}
+			}
+			catch(InvalidCharException ice) {
+				System.out.println(ice.getMessage());
+				mainMenu();
+			}
+			//Create new Animal object
+			Animals animal = new Animals(serialNumber, toyName, brandName, price, availableCount, ageRange, material, size);
 		}
+		//Puzzles
 		else if(toyType >=4 && toyType <=6) {
-			
+			char puzzleType = menu.enterPuzzle();
+			try {
+				if(puzzleType == 'Z') {
+					throw new InvalidCharException();
+				}
+			}
+			catch(InvalidCharException ice) {
+				System.out.println(ice.getMessage());
+				mainMenu();
+			}
+			//Create new Puzzle object
+			Puzzles puzzle = new Puzzles(serialNumber, toyName, brandName, price, availableCount, ageRange, puzzleType);
 		}
+		//Board Games
 		else if(toyType >= 7) {
+			int minimumPlayer = menu.enterMinimum();
+			if(minimumPlayer <= 0) {
+				System.out.println("This is an invalid input! A board game must have at least 1 player!");
+				mainMenu();
+			}
+			int maximumPlayer = menu.enterMaximum();
+			try {
+				if(maximumPlayer <= minimumPlayer) {
+					throw new MaximumPlayerException();
+				}
+			}
+			catch(MaximumPlayerException mpe) {
+				System.out.println(mpe.getMessage());
+				mainMenu();
+			}
+			String designerName = menu.enterDesigner();
 			
+			//Create new Boardgame Object
+			Boardgames boardgame = new Boardgames(serialNumber, toyName, brandName, price, availableCount, ageRange, minimumPlayer, maximumPlayer, designerName);
+			//Save Boardgame to database
+			String saveBoardgame = serialNumber +";" +boardgame.getToyName() +";" +boardgame.getBrandName() +";" +boardgame.getPrice() 
+			                       +";" +boardgame.getAvailableCount() +";+" +boardgame.getAgeRange() +";" +boardgame.getMinimum() +";" 
+					               +boardgame.getMaximum() +";" +boardgame.getDesignerName();
+			//Proceed to save to text file
+			try {
+				saveToFile(TOYS, saveBoardgame, true);
+			} catch (IOException e) {
+				System.out.println("Unable to save to the destination, please try again later!");
+			}
 		}
 		else {
 			mainMenu();
 		}
+	}
+	
+	public static void saveToFile(String fileName, String toyDescription, boolean append) throws IOException{
+		File file = new File(fileName);
+		FileWriter writer = new FileWriter(file, append);
+		PrintWriter printer = new PrintWriter(writer);
 	}
 }
