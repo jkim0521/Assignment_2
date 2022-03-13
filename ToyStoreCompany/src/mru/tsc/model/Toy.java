@@ -4,7 +4,7 @@ package mru.tsc.model;
  * The Toy class is the parent of the Figures, Animals, Puzzles, 
  * and Boardgames classes, which contains characteristics that are 
  * shared between all toys within the database. 
- * @author Joseph Kim & Skylar Wiltse
+ * @author Joseph Kim
  *
  */
 public class Toy {

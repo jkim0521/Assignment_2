@@ -5,7 +5,7 @@ package mru.tsc.model;
  * which can either be mechanical(M), cryptic(C), logical(L), trivia(T),
  * or riddle(R) related. 
  * Puzzles can have a 4, 5, or 6 as the first digit in the serial number.
- * @author Joseph Kim & Skylar Wiltse
+ * @author Joseph Kim
  */
 public class Puzzles extends Toy{
 	private char puzzleType;

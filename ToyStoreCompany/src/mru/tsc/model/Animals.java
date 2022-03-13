@@ -4,7 +4,7 @@ package mru.tsc.model;
  * Animals class includes a String to represent the material of
  * the stuffed animal and a char that represents the size of the toy. 
  * Animals have either a 2 or 3 as the first digit in the serial number.
- * @author Joseph Kim & Skylar Wiltse
+ * @author Joseph Kim
  */
 public class Animals extends Toy{
 	private String material;
