@@ -55,21 +55,21 @@ public class Menu {
 	
 	public String searchSN() {
 		String sn = "";
-		System.out.println("Enter Serial Number: ");
+		System.out.println("\nEnter Serial Number: ");
 		sn = option.nextLine();
 		return sn;
 	}
 	
 	public String searchName() {
 		String name = "";
-		System.out.println("Enter Toy Name: ");
+		System.out.println("\nEnter Toy Name: ");
 		name = option.nextLine();
 		return name;
 	}
 	
 	public String searchType() {
 		String type = "";
-		System.out.println("Enter Type: ");
+		System.out.println("\nEnter Type: ");
 		type = option.nextLine();
 		return type;
 	}
@@ -80,7 +80,7 @@ public class Menu {
 	 */
 	public String enterSN() {
 		String sn = "";
-		System.out.println("Enter Serial Number: ");
+		System.out.println("\nEnter Serial Number: ");
 		sn = option.nextLine();
 		return sn;
 	}
@@ -91,7 +91,7 @@ public class Menu {
 	 */
 	public String enterName() {
 		String name = "";
-		System.out.println("Enter Toy Name: ");
+		System.out.println("\nEnter Toy Name: ");
 		name = option.nextLine();
 		return name;
 	}
@@ -102,7 +102,7 @@ public class Menu {
 	 */
 	public String enterBrand() {
 		String brand = "";
-		System.out.println("Enter Toy Brand: ");
+		System.out.println("\nEnter Toy Brand: ");
 		brand = option.nextLine();
 		return brand;
 	}
@@ -114,7 +114,7 @@ public class Menu {
 	 */
 	public double enterPrice() {
 		double price;
-		System.out.println("Enter Toy Price: ");
+		System.out.println("\nEnter Toy Price: ");
 		price = option.nextDouble();
 		price = Math.round(price*100.0)/100.0;
 		return price;
@@ -127,7 +127,7 @@ public class Menu {
 	 */
 	public int enterCount() {
 		int availableCount;
-		System.out.println("Enter Available Counts: ");
+		System.out.println("\nEnter Available Counts: ");
 		try {
 			availableCount = option.nextInt();
 			return availableCount;
@@ -144,7 +144,7 @@ public class Menu {
 	 */
 	public int enterAge() {
 		int age;
-		System.out.println("Enter Appropriate Age: ");
+		System.out.println("\nEnter Appropriate Age: ");
 		try {
 			age = option.nextInt();
 			return age;
@@ -160,7 +160,7 @@ public class Menu {
 	 * @return
 	 */
 	public char enterClassification() {
-		System.out.println("Enter a classification (A, D, H): ");
+		System.out.println("\nEnter a classification (A, D, H): ");
 		try {
 			char classification = option.next().charAt(0);
 			switch(classification) {
@@ -188,7 +188,8 @@ public class Menu {
 	 */
 	public String enterMaterial() {
 		String material = "";
-		System.out.println("Enter Material: ");
+		option.nextLine(); //conusme leftover new line
+		System.out.println("\nEnter Material: ");
 		material = option.nextLine();
 		return material;
 	}
@@ -198,7 +199,7 @@ public class Menu {
 	 * @return
 	 */
 	public char enterSize() {
-		System.out.println("Enter a size (S, M, L): ");
+		System.out.println("\nEnter a size (S, M, L): ");
 		try {
 			char size = option.next().charAt(0);
 			switch(size) {
@@ -225,7 +226,7 @@ public class Menu {
 	 * @return
 	 */
 	public char enterPuzzle() {
-		System.out.println("Enter a Puzzle Type (M, C, L, T, R): ");
+		System.out.println("\nEnter a Puzzle Type (M, C, L, T, R): ");
 		try {
 			char puzzleType = option.next().charAt(0);
 			switch(puzzleType) {
@@ -260,7 +261,7 @@ public class Menu {
 	 */
 	public int enterMinimum() {
 		int min;
-		System.out.println("Enter Minimum Number of Players: ");
+		System.out.println("\nEnter Minimum Number of Players: ");
 		try {
 			min = option.nextInt();
 			return min;
@@ -278,7 +279,7 @@ public class Menu {
 	 */
 	public int enterMaximum() {
 		int max;
-		System.out.println("Enter Maximum Number of Players: ");
+		System.out.println("\nEnter Maximum Number of Players: ");
 		try {
 			max = option.nextInt();
 			return max;
@@ -294,11 +295,10 @@ public class Menu {
 	 * @return
 	 */
 	public String enterDesigner() {
-		Scanner cs = new Scanner(System.in);
 		String designer = "";
-		System.out.println("Enter Designer Names(Use ',' to separate the names): ");
-		designer = cs.nextLine();
-		cs.close();
+		option.nextLine(); //conusme leftover new line
+		System.out.println("\nEnter Designer Names(Use ',' to separate the names): ");
+		designer = option.nextLine();
 		return designer;
 	}
 	

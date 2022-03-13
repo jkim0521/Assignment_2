@@ -277,6 +277,17 @@ public class Navigation {
 			}
 			//Create new Figure object
 			Figures figure = new Figures(serialNumber, toyName, brandName, price, availableCount, ageRange, classification);
+			//Save Figure to database with delimiter
+			String saveFigure = serialNumber +";" +figure.getToyName() +";" +figure.getBrandName() +";" +figure.getPrice() 
+								+";" +figure.getAvailableCount() +";+" +figure.getAgeRange() +";" +figure.getClassification();
+			try {
+				inventory.saveToFile(saveFigure);
+			} catch (IOException e) {
+				System.out.println("Aborting operation! No changes will be saved.");
+				mainMenu();
+			}
+			//Success
+			addSuccess();
 		}
 		//Animals
 		else if(toyType == 2 || toyType == 3) {
@@ -297,6 +308,18 @@ public class Navigation {
 			}
 			//Create new Animal object
 			Animals animal = new Animals(serialNumber, toyName, brandName, price, availableCount, ageRange, material, size);
+			//Save Animal to database with delimiter
+			String saveAnimal = serialNumber +";" +animal.getToyName() +";" +animal.getBrandName() +";" +animal.getPrice() 
+								+";" +animal.getAvailableCount() +";+" +animal.getAgeRange() +";" +animal.getMaterial() 
+								+";" +animal.getSize();
+			try {
+				inventory.saveToFile(saveAnimal);
+			} catch (IOException e) {
+				System.out.println("Aborting operation! No changes will be saved.");
+				mainMenu();
+			}
+			//Success
+			addSuccess();
 		}
 		//Puzzles
 		else if(toyType >=4 && toyType <=6) {
@@ -312,6 +335,17 @@ public class Navigation {
 			}
 			//Create new Puzzle object
 			Puzzles puzzle = new Puzzles(serialNumber, toyName, brandName, price, availableCount, ageRange, puzzleType);
+			//Save Puzzle to database with delimiter
+			String savePuzzle = serialNumber +";" +puzzle.getToyName() +";" +puzzle.getBrandName() +";" +puzzle.getPrice() 
+            					+";" +puzzle.getAvailableCount() +";+" +puzzle.getAgeRange() +";" +puzzle.getPuzzleType();
+			try {
+				inventory.saveToFile(savePuzzle);
+			} catch (IOException e) {
+				System.out.println("Aborting operation! No changes will be saved.");
+				mainMenu();
+			}
+			//Success
+			addSuccess();
 		}
 		//Board Games
 		else if(toyType >= 7) {
@@ -334,25 +368,36 @@ public class Navigation {
 			
 			//Create new Boardgame Object
 			Boardgames boardgame = new Boardgames(serialNumber, toyName, brandName, price, availableCount, ageRange, minimumPlayer, maximumPlayer, designerName);
-			//Save Boardgame to database
+			//Save Boardgame to database with delimiter
 			String saveBoardgame = serialNumber +";" +boardgame.getToyName() +";" +boardgame.getBrandName() +";" +boardgame.getPrice() 
-			                       +";" +boardgame.getAvailableCount() +";+" +boardgame.getAgeRange() +";" +boardgame.getMinimum() +";" 
+			                       +";" +boardgame.getAvailableCount() +";+" +boardgame.getAgeRange() +";" +boardgame.getMinimum() +"-" 
 					               +boardgame.getMaximum() +";" +boardgame.getDesignerName();
-			//Proceed to save to text file
+			System.out.println(saveBoardgame);
 			try {
-				saveToFile(TOYS, saveBoardgame, true);
+				inventory.saveToFile(saveBoardgame);
 			} catch (IOException e) {
-				System.out.println("Unable to save to the destination, please try again later!");
+				System.out.println("Aborting operation! No changes will be saved.");
+				mainMenu();
 			}
-		}
-		else {
-			mainMenu();
+			//Success
+			addSuccess();
 		}
 	}
 	
-	public static void saveToFile(String fileName, String toyDescription, boolean append) throws IOException{
-		File file = new File(fileName);
-		FileWriter writer = new FileWriter(file, append);
-		PrintWriter printer = new PrintWriter(writer);
+	/**
+	 * Prints a message upon adding a new toy to the text file before
+	 * Prompting the user to press enter to continue which then
+	 * redirects to the main menu
+	 */
+	public void addSuccess() {
+		System.out.println("\nNew Toy Added!");
+		System.out.println("\nPress Enter to Continue...");
+		try {
+			System.in.read();
+		}
+		catch(Exception e) {
+			System.out.println("An error has occurred! Please try again.");
+		} 
+		mainMenu();
 	}
 }
