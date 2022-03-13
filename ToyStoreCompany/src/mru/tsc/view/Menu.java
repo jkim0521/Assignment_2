@@ -6,7 +6,7 @@ import java.util.Scanner;
  * The Menu class deals with printing out various messages
  * including the welcome message and menu options. User input 
  * is gathered here and is returned to the Navigation class
- * @author Joseph Kim & Skylar Wiltse
+ * @author Joseph Kim
  *
  */
 public class Menu {
@@ -218,6 +218,88 @@ public class Menu {
 			System.out.print("");
 		}
 		return 'Z';
+	}
+	
+	/**
+	 * Prompt the user to enter a valid name for the toy when adding a toy
+	 * @return
+	 */
+	public char enterPuzzle() {
+		System.out.println("Enter a Puzzle Type (M, C, L, T, R): ");
+		try {
+			char puzzleType = option.next().charAt(0);
+			switch(puzzleType) {
+			case 'm': //fall through
+			case 'M': puzzleType = Character.toUpperCase(puzzleType);
+					  return puzzleType;
+			case 'c': //fall through
+			case 'C': puzzleType = Character.toUpperCase(puzzleType);
+					  return puzzleType;
+			case 'l': //fall through
+			case 'L': puzzleType = Character.toUpperCase(puzzleType);
+					  return puzzleType;
+			case 't': //fall through
+			case 'T': puzzleType = Character.toUpperCase(puzzleType);
+					  return puzzleType;
+			case 'r': //fall through
+			case 'R': puzzleType = Character.toUpperCase(puzzleType);
+					  return puzzleType;
+			default: return 'Z';
+			}
+		}
+		catch (InputMismatchException imm) {
+			System.out.print("");
+		}
+		return 'Z';
+	}
+	
+	/**
+	 * Prompt the user to enter an integer that represents the minimum amount of players for a board game.
+	 * There can be no less than one player
+	 * @return
+	 */
+	public int enterMinimum() {
+		int min;
+		System.out.println("Enter Minimum Number of Players: ");
+		try {
+			min = option.nextInt();
+			return min;
+		}
+		catch (InputMismatchException imm) {
+			System.out.print("");
+		}
+		return -1;
+	}
+	
+	/**
+	 * Prompt the user to enter an integer that represents the maximum amount of players for a board game
+	 * The maximum cannot be less than the minimum amount of players
+	 * @return
+	 */
+	public int enterMaximum() {
+		int max;
+		System.out.println("Enter Maximum Number of Players: ");
+		try {
+			max = option.nextInt();
+			return max;
+		}
+		catch (InputMismatchException imm) {
+			System.out.print("");
+		}
+		return -1;
+	}
+	
+	/**
+	 * Prompt the user to enter a valid material for a stuffed Animal when adding a toy
+	 * @return
+	 */
+	public String enterDesigner() {
+		Scanner cs = new Scanner(System.in);
+		String designer = "";
+		System.out.println("Enter Designer Names(Use ',' to separate the names): ");
+		designer = cs.nextLine();
+		cs.close();
+		return designer;
 	}
 	
 	/**
