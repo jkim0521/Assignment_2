@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import mru.tsc.exceptions.EmptyInputException;
+import mru.tsc.exceptions.IncompatibleInputException;
 import mru.tsc.exceptions.MaximumPlayerException;
+import mru.tsc.exceptions.MinMaxPriceException;
 import mru.tsc.exceptions.NonUniqueNumberException;
 import mru.tsc.model.Animals;
 import mru.tsc.model.Boardgames;
@@ -32,6 +34,7 @@ public class Navigation {
 	Menu menu = new Menu();
 	FileHandling inventory = new FileHandling();
 	protected final String TOYS = "toys.txt";
+	Scanner sc = new Scanner(System.in);
 
 	/**
 	 * Outputs options and allows navigation of the main menu.
@@ -41,7 +44,7 @@ public class Navigation {
 	 */
 	public void mainMenu() throws NumberFormatException, IOException{
 		String choice = "";
-		boolean decision = true;
+		boolean decision = true; 
 
 		//prints the options for the main menu
 		choice = menu.mainMenu();
@@ -121,7 +124,13 @@ public class Navigation {
 					break;
 				}
 				case "4": {
-					//Back
+					// Gift Suggestion
+					gift();
+					break;
+				}
+
+				case "5": {
+					// Back
 					decision = false;
 					mainMenu();
 					break;
@@ -217,7 +226,6 @@ public class Navigation {
 		for(i = 0; i < selection.size(); i++) {
 			System.out.print(selection.get(i));
 		}
-		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter the number of the item you would like to purchase, or " + (i+1) + "to go back to the main menu.");
 		String choice = sc.nextLine();
 		
@@ -343,8 +351,7 @@ public class Navigation {
 			for(i = 0; i < selection.size(); i++) {
 				System.out.print(selection.get(i));
 			}
-			Scanner sc = new Scanner(System.in);
-			System.out.println("Enter the number of the item you would like to purchase, or " + (i+1) + "to go back to the main menu.");
+			System.out.println("Enter the number of the item you would like to purchase, or " + ((i+1)) + "to go back to the main menu.");
 			String choice = sc.nextLine();
 			
 			for(int j = 0; j < selection.size(); j++) {
@@ -359,7 +366,6 @@ public class Navigation {
 					menu.mainMenu();
 				}
 			}
-			sc.close();
 	}
 	
 	/*
@@ -384,6 +390,106 @@ public class Navigation {
 			System.out.println("Something went wrong.");
 		}
 		
+	}
+	
+	/**
+	 * A method that asks the user a list of questions in order to provide 
+	 * a suggestion for a toy for purchase as a gift
+	 * @throws IOException 
+	 * @throws NumberFormatException 
+	 */
+	private void gift() throws NumberFormatException, IOException {
+		String type = "Any";
+		String suggestion = "";
+		double min = 0.0;
+		double max = 0.0;
+		int minAge = 0;
+		int choice;
+		int answered = 0;
+			
+		menu.giftInstructions();
+			
+			//Price Range
+		System.out.println("\nEnter the minimum price for a gift: ");
+		choice = menu.qInput();
+		if(choice == 1) {
+			min = menu.qPrice();
+			try {
+				if(min <= 0) {
+					throw new InputPriceException();
+				}
+				else if (min > 0) {
+					answered++;
+				}
+			}
+			catch(InputPriceException ipe) {
+				System.out.println(ipe.getMessage());
+			}	
+		}
+			
+		System.out.println("\nEnter the maximum price for a gift: ");
+		choice = menu.qInput();
+		if(choice == 1) {
+			max = menu.qPrice();
+			try {
+				if (max <= min) {
+					throw new MinMaxPriceException();
+				}	
+			}
+			catch(MinMaxPriceException mmpe) {
+				System.out.println(mmpe.getMessage());
+			}
+			try {
+				if(max <= 0) {
+					throw new InputPriceException();
+				}
+				else if (max > min) {
+					answered++;
+				}
+			}
+			catch(InputPriceException ipe) {
+				System.out.println(ipe.getMessage());
+			}	
+		}
+			
+		//Age
+		System.out.println("\nEnter the minimum age: ");
+		choice = menu.qInput();
+		if(choice == 1) {
+			minAge = menu.qAge();
+			try {
+				if(minAge <= 0) {
+					throw new LessThanZeroException();
+				}
+				else if(minAge > 0) {
+					answered++;
+				}
+			}
+			catch(LessThanZeroException lze) {
+				System.out.println(lze.getMessage());
+			}
+		}
+		
+		//Type
+		System.out.println("\nEnter the type of toy (in one word, non-plural): ");
+		choice = menu.qInput();
+		if(choice == 1) {
+			type = menu.qType();
+			try {
+				if(!type.equals("figure") || !type.equals("animal") || !type.equals("puzzle") || !type.equals("boardgame")) {
+					throw new IncompatibleInputException();
+				}
+				else {
+					answered++;
+				}
+		}
+			catch(IncompatibleInputException iipe) {
+				System.out.println(iipe.getMessage());
+			}
+		}
+		suggestion = menu.concatQuestions(min, max, minAge, type, answered);
+		System.out.println(suggestion);
+		mainMenu();
 	}
 	
 	/**

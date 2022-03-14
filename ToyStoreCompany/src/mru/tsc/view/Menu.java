@@ -47,7 +47,8 @@ public class Menu {
 		System.out.println("\n(1) Serial Number (SN)");
 		System.out.println("(2) Toy Name");
 		System.out.println("(3) Type");
-		System.out.println("(4) Back to Main Menu");
+		System.out.println("(4) Gift Suggestion");
+		System.out.println("(5) Back to Main Menu");
 		System.out.println("\nEnter Option: ");
 		choice = option.nextLine();
 		return choice;
@@ -336,6 +337,80 @@ public class Menu {
 		return -1;
 	}
 	
+	//Gift Methods
+		public int qInput() {
+			int choice;
+			try {
+				choice = option.nextInt();
+				switch(choice) {
+				case 1: return choice;
+				default: System.out.println("\nSkipping...");
+						 break;
+				}
+			}
+				catch (InputMismatchException imm) {
+					System.out.print("");
+				}
+				return 0;
+		}
+		
+		public double qPrice() {		
+			double price;
+			price = option.nextDouble();
+			price = Math.round(price*100.0)/100.0;
+			return price;
+		}
+		
+		public int qAge() {
+			return option.nextInt();
+		}
+		
+		public String qType(){
+			String type = "";
+			option.next();  //consume leftover newline
+			type = option.next();
+			type = type.toLowerCase();
+			return type;
+		}
+		
+		public String concatQuestions(double min, double max, int age, String type, int answered) {
+			int questionsAnswered = answered;
+			String suggestion= "";
+			if(questionsAnswered >= 2) {
+				//determine price range from answers
+				double minimum = min;
+				double maximum = max;
+				String priceRange = "";
+				if(minimum == 0.0 && maximum > 0.0) {
+					priceRange = "$"+minimum +"0-" +maximum;
+				}
+				else if(minimum > 0.0 && maximum == 0.0) {
+					priceRange = "$"+minimum +"+";
+				}
+				else if(minimum > 0.0 && maximum > 0.0) {
+					priceRange = "$" +minimum +"-" +maximum;
+				}
+				else if(minimum == 0.0 && maximum == 0.0){
+					priceRange = "No price range";
+				}
+				System.out.println("\n===================================================");
+				System.out.println("\nThe results of the questions are the following: ");
+				System.out.println("\nPrice Range: " +priceRange);
+				System.out.println("\nAge Group: " +age +"+");
+				System.out.println("\nType of Toy: " +type);
+				System.out.println("===================================================");
+				
+				suggestion = "\nThis feature is not implemented yet!\n";
+				return suggestion;
+			}
+			else {
+				System.out.println("Not enough questions answered to make a suggestion!");
+			}
+			return "Z";
+		}
+		
+		//End Gift Methods
+	
 	/**
 	 * Method to re-prompt the user for input if initial
 	 * input was incorrect
@@ -347,7 +422,13 @@ public class Menu {
 		choice = option.nextLine();
 		return choice;
 	}
-		
+	
+	public void giftInstructions() {
+		System.out.println("\nAnswer the following questions for your suggestion!");
+		System.out.println("To answer a question, please enter a 1");
+		System.out.println("However, you may enter any integer to skip the question if you are unsure");
+	}
+	
 	/**
 	 * Prints out the exit message when a user quits program
 	 */

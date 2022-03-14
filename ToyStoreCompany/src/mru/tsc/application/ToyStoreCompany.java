@@ -12,11 +12,11 @@ import mru.tsc.view.Menu;
  *
  */
 public class ToyStoreCompany {
-	public static void main(String[]args) throws RuntimeException, IOException {
+	public static void main(String[]args) throws NumberFormatException, IOException {
 		Navigation navi = new Navigation();
 		Menu menu = new Menu();
 		menu.welcomeMessage();
 		navi.mainMenu();
-	}
+	} 
 
 }

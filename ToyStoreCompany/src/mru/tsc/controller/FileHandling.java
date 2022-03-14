@@ -13,26 +13,19 @@ import java.util.*;
 import java.io.*;
 
 /**
- * This class handles all file related operations.
+ * The FileHandling class takes the file containing all toys available, delimits each
+ * line using ";", and stores the values of each line into a String[], which is then stored in an ArrayList.
  * @author Skylar Wiltse
  */
 public class FileHandling {
 	protected final static String TOYS = "toys.txt";
 	Scanner input = new Scanner(System.in);
-	//Navigation navi = new Navigation();
 	
-	/**
-	 * Takes the file containing all toys available, delimits each
-	 * line using ";", and stores the values of each line into a String[],
-	 * which is then stored in an ArrayList.
-	 * @return - toyCatalogue
-	 * @throws IOException
-	 */
-	public ArrayList<String[]> toyCatalogue() throws IOException {
+	ArrayList<String[]> toyCatalogue() throws IOException {
 		ArrayList<String[]> toyList = new ArrayList<>();
 		String[] toy;
 		String line = "";
-		File file = new File(TOYS);
+		File file = new File(TOYS); 
 		Scanner reader = new Scanner(file);
 		
 		int i = 0;
