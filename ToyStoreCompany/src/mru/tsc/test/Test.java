@@ -19,11 +19,11 @@ class Test {
 	void test1() {
 		Animals test = new Animals("2323232323", "Test", "Brand", 0, 1, 10, "Soft", 'L');
 		Toy testToy = test;
-		boolean pass = false;
+		boolean passTest1 = false;
 		if(testToy.serialNumber().equals("2323232323")) {
-			pass = true;
+			passTest1 = true;
 		}
-		assertTrue(pass);
+		assertTrue(passTest1);
 	}
 	
 	void test2() {
