@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 import mru.tsc.exceptions.EmptyInputException;
 import mru.tsc.exceptions.MaximumPlayerException;
@@ -35,8 +37,9 @@ public class Navigation {
 	 * Outputs options and allows navigation of the main menu.
 	 * This method throws NumberFormatException to allow parsing
 	 * user input to check if an integer or String was entered
+	 * @throws IOException 
 	 */
-	public void mainMenu() throws NumberFormatException{
+	public void mainMenu() throws NumberFormatException, IOException{
 		String choice = "";
 		boolean decision = true;
 
@@ -87,8 +90,9 @@ public class Navigation {
 
 	/**
 	 * Outputs options and allows navigation of the search sub menu
+	 * @throws IOException 
 	 */
-	private String searchMenu() throws NumberFormatException{
+	private String searchMenu() throws NumberFormatException, IOException{
 		String choice = "";
 		String searchVal = "";
 		boolean decision = true;
@@ -113,6 +117,7 @@ public class Navigation {
 				case "3": {
 					//Type Search
 					searchVal = menu.searchType();
+					searchToyType(searchVal);
 					break;
 				}
 				case "4": {
@@ -144,7 +149,8 @@ public class Navigation {
 	 */
 	private void searchToy(String searchVal) {
 		//variables
-		boolean found = false;
+		ArrayList<String[]> results = new ArrayList<>();
+		String[] result;
 		String item = "";
 		//try parsing catalogue for item
 		try {
@@ -154,17 +160,206 @@ public class Navigation {
 				for(int j = 0; j < inventory.toyCatalogue().get(i).length; j++) {
 					item = inventory.toyCatalogue().get(i).toString();
 					if(item.contains(searchVal)) {
-						found = true;
+						result = item.split(";");
+						results.add(result);
 						purchaseToy(i);
-					} 
-					else {
-						found = false;
 					}
 				}
 			}
 		} catch (IOException e) {
 			System.out.println("Something went wrong.");
 		}
+		//Print results for selection.
+		int counter = 1;
+		ArrayList<String> selection = new ArrayList<>();
+		for(int i = 0; i < results.size(); i++) {
+			String[] r = results.get(i);
+			char identifier = r[0].charAt(0);
+			switch (identifier) {
+				case '0':
+				case '1': {
+					String rString = "(" + counter + ")" + "Figure, SN: " + r[0] + ", Name: " + r[1] +
+							", Brand: " + r[2] + ", Price: " + r[3] + ", In Stock: " + r[4] +
+							", Age Appropriate: " + r[5] + ", Classification: " + r[7];
+					selection.add(rString);
+					break;
+				} 
+				case '2':
+				case '3': {
+					String rString = "(" + counter + ")" + "Type: Animal, SN: " + r[0] + ", Name: " + r[1] +
+							", Brand: " + r[2] + ", Price: " + r[3] + ", In Stock: " + r[4] +
+							", Age Appropriate: " + r[5] + ", Material: " + r[7] + "Size: " + r[8];
+					selection.add(rString);
+					break;
+				}
+				case '4':
+				case '5':
+				case '6': {
+					String rString = "(" + counter + ")" +"Type: Puzzle, SN: " + r[0] + ", Name: " + r[1] +
+							", Brand: " + r[2] + ", Price: " + r[3] + ", In Stock: " + r[4] +
+							", Age Appropriate: " + r[5] + ", Puzzle Type: " + r[7];
+					selection.add(rString);
+					break;
+				}
+				case '7':
+				case '8':
+				case '9': {
+					String rString = "(" + counter + ")" +"Type: Board Game, SN: " + r[0] + ", Name: " + r[1] +
+							", Brand: " + r[2] + ", Price: " + r[3] + ", In Stock: " + r[4] +
+							", Age Appropriate: " + r[5] + ", # of Players: " + r[7] + ", Designers: " + r[8];
+					selection.add(rString);
+					break;
+				}
+			}
+		}
+		//Print selection menu
+		int i;
+		for(i = 0; i < selection.size(); i++) {
+			System.out.print(selection.get(i));
+		}
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter the number of the item you would like to purchase, or " + (i+1) + "to go back to the main menu.");
+		String choice = sc.nextLine();
+		
+		for(int j = 0; j < selection.size(); j++) {
+			if(choice.equals(j)) {
+				purchaseToy(j);
+			}
+			if (Integer.parseInt(choice) == (selection.size() + 1)) {
+				menu.mainMenu();
+			}
+			else {
+				System.out.println("Invalid input, please try again.");
+				menu.mainMenu();
+			}
+		}
+		sc.close();
+	}
+	
+	/*
+	 * Method to search by type of toy.
+	 * @param - User entered type.
+	 */
+	private void searchToyType(String type) throws IOException {
+		ArrayList<String[]> toyList = inventory.toyCatalogue();
+		ArrayList<String[]> results = new ArrayList<>();
+		String[] result;
+		type = type.toLowerCase();
+		try {
+			switch (type) {
+			case "figure": {
+				for(int i = 0; i < toyList.size(); i++) {
+					 result = toyList.get(i);
+					 String SN = result[0];
+					 if (SN.charAt(0) == 0 || SN.charAt(0) == 1) {
+						results.add(result);
+					} 
+				}
+				break;
+			}
+			case "animal": {
+				for(int i = 0; i < toyList.size(); i++) {
+					 result = toyList.get(i);
+					 String SN = result[0];
+					 if (SN.charAt(0) == 2 || SN.charAt(0) == 3) {
+						results.add(result);
+					} 
+				}
+				break;
+			}
+			case "puzzle": {
+				for(int i = 0; i < toyList.size(); i++) {
+					 result = toyList.get(i);
+					 String SN = result[0];
+					 if (SN.charAt(0) == 4 || SN.charAt(0) == 5 || SN.charAt(0) == 6) {
+						results.add(result);
+					} 
+				}
+				break;
+			}
+			case "board game": {
+				for(int i = 0; i < toyList.size(); i++) {
+					 result = toyList.get(i);
+					 String SN = result[0];
+					 if (SN.charAt(0) == 7 || SN.charAt(0) == 8 || SN.charAt(0) == 9) {
+						results.add(result);
+					} 
+				}
+				break;
+			}
+			default:
+				throw new InvalidCharException("Cannot find anything of type " + type + ". Try: "
+						+ "figure, animal, puzzle, or board game.");
+			}
+		} 
+		catch (Exception e) {
+			System.out.println("Something went wrong.");
+		}
+		//Print results for selection.
+		int counter = 1;
+		ArrayList<String> selection = new ArrayList<>();
+		for(int i = 0; i < results.size(); i++) {
+			String[] r = results.get(i);
+			char identifier = r[0].charAt(0);
+			switch (identifier) {
+				case '0':
+				case '1': {
+					 String rString = "(" + counter + ")" + "Figure, SN: " + r[0] + ", Name: " + r[1] +
+							", Brand: " + r[2] + ", Price: " + r[3] + ", In Stock: " + r[4] +
+							", Age Appropriate: " + r[5] + ", Classification: " + r[7];
+					 selection.add(rString);
+					 break;
+					} 
+				case '2':
+				case '3': {
+					String rString = "(" + counter + ")" + "Type: Animal, SN: " + r[0] + ", Name: " + r[1] +
+							", Brand: " + r[2] + ", Price: " + r[3] + ", In Stock: " + r[4] +
+							", Age Appropriate: " + r[5] + ", Material: " + r[7] + "Size: " + r[8];
+					selection.add(rString);
+					break;
+					}
+				case '4':
+				case '5':
+				case '6': {
+					String rString = "(" + counter + ")" +"Type: Puzzle, SN: " + r[0] + ", Name: " + r[1] +
+							", Brand: " + r[2] + ", Price: " + r[3] + ", In Stock: " + r[4] +
+							", Age Appropriate: " + r[5] + ", Puzzle Type: " + r[7];
+					selection.add(rString);
+					break;
+					}
+				case '7':
+				case '8':
+				case '9': {
+					String rString = "(" + counter + ")" +"Type: Board Game, SN: " + r[0] + ", Name: " + r[1] +
+							", Brand: " + r[2] + ", Price: " + r[3] + ", In Stock: " + r[4] +
+							", Age Appropriate: " + r[5] + ", # of Players: " + r[7] + ", Designers: " + r[8];
+					selection.add(rString);
+					break;
+					}
+				}
+			}
+			//Print selection menu
+			int i;
+			for(i = 0; i < selection.size(); i++) {
+				System.out.print(selection.get(i));
+			}
+			Scanner sc = new Scanner(System.in);
+			System.out.println("Enter the number of the item you would like to purchase, or " + (i+1) + "to go back to the main menu.");
+			String choice = sc.nextLine();
+			
+			for(int j = 0; j < selection.size(); j++) {
+				if(choice.equals(j)) {
+				purchaseToy(j);
+				}
+				if (Integer.parseInt(choice) == (selection.size() + 1)) {
+					menu.mainMenu();
+				}
+				else {
+					System.out.println("Invalid input, please try again.");
+					menu.mainMenu();
+				}
+			}
+			sc.close();
 	}
 	
 	/*
@@ -195,8 +390,10 @@ public class Navigation {
 	 * Method to select a particular toy to remove from the database.
 	 * Prompts the user to enter a valid serial number and 
 	 * requests if the user would like to remove the toy.
+	 * @throws IOException 
+	 * @throws NumberFormatException 
 	 */
-	private void removeToy() {
+	private void removeToy() throws NumberFormatException, IOException {
 		boolean verified;
 		
 		String serialNumber = menu.enterSN();
@@ -222,8 +419,10 @@ public class Navigation {
 	 * Method to add a new toy to the database
 	 * Creates a new toy object, with its type determined by the 
 	 * significant digit of the serial number
+	 * @throws IOException 
+	 * @throws NumberFormatException 
 	 */
-	private void addToy() {
+	private void addToy() throws NumberFormatException, IOException {
 		boolean verified;
 		boolean isUnique;
 		
@@ -434,8 +633,10 @@ public class Navigation {
 	 * Prints a message upon adding a new toy to the text file before
 	 * Prompting the user to press enter to continue which then
 	 * redirects to the main menu
+	 * @throws IOException 
+	 * @throws NumberFormatException 
 	 */
-	public void addSuccess() {
+	public void addSuccess() throws NumberFormatException, IOException {
 		System.out.println("\nNew Toy Added!");
 		System.out.println("\nPress Enter to Continue...");
 		try {
@@ -451,8 +652,10 @@ public class Navigation {
 	 * Prints a message upon adding a new toy to the text file before
 	 * Prompting the user to press enter to continue which then
 	 * redirects to the main menu
+	 * @throws IOException 
+	 * @throws NumberFormatException 
 	 */
-	public void removeSuccess() {
+	public void removeSuccess() throws NumberFormatException, IOException {
 		System.out.println("\nPress Enter to Continue...");
 		try {
 			System.in.read();
