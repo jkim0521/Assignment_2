@@ -21,7 +21,7 @@ public class FileHandling {
 	protected final static String TOYS = "toys.txt";
 	Scanner input = new Scanner(System.in);
 	
-	ArrayList<String[]> toyCatalogue() throws IOException {
+	public ArrayList<String[]> toyCatalogue() throws IOException {
 		ArrayList<String[]> toyList = new ArrayList<>();
 		String[] toy;
 		String line = "";

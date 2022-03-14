@@ -35,7 +35,8 @@ public class Navigation {
 	FileHandling inventory = new FileHandling();
 	protected final String TOYS = "toys.txt";
 	Scanner sc = new Scanner(System.in);
-
+	
+	
 	/**
 	 * Outputs options and allows navigation of the main menu.
 	 * This method throws NumberFormatException to allow parsing
@@ -45,6 +46,7 @@ public class Navigation {
 	public void mainMenu() throws NumberFormatException, IOException{
 		String choice = "";
 		boolean decision = true; 
+		System.out.println(inventory.toyCatalogue().toString());
 
 		//prints the options for the main menu
 		choice = menu.mainMenu();
@@ -242,6 +244,7 @@ public class Navigation {
 			}
 		}
 		sc.close();
+		menu.searchMenu();
 	}
 	
 	/*
@@ -351,7 +354,7 @@ public class Navigation {
 			for(i = 0; i < selection.size(); i++) {
 				System.out.print(selection.get(i));
 			}
-			System.out.println("Enter the number of the item you would like to purchase, or " + ((i+1)) + "to go back to the main menu.");
+			System.out.println("Enter the number of the item you would like to purchase, or " + ((i+1)) + " to go back to the main menu.");
 			String choice = sc.nextLine();
 			
 			for(int j = 0; j < selection.size(); j++) {
@@ -363,9 +366,10 @@ public class Navigation {
 				}
 				else {
 					System.out.println("Invalid input, please try again.");
-					menu.mainMenu();
+					menu.searchMenu();
 				}
 			}
+			menu.searchMenu();
 	}
 	
 	/*
