@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 
 import mru.tsc.exceptions.EmptyInputException;
 import mru.tsc.exceptions.MaximumPlayerException;
+import mru.tsc.exceptions.NonUniqueNumberException;
 import mru.tsc.model.Animals;
 import mru.tsc.model.Boardgames;
 import mru.tsc.model.Figures;
@@ -224,6 +225,7 @@ public class Navigation {
 	 */
 	private void addToy() {
 		boolean verified;
+		boolean isUnique;
 		
 		//Fulfillment of Toy constructor
 		String serialNumber = menu.enterSN();
@@ -236,6 +238,17 @@ public class Navigation {
 		}
 		catch(InvalidSerialNumberException isne) {
 			System.out.println(isne.getMessage());
+			mainMenu();
+		}
+		//checks to see if the inputted serial number does not already exist
+		isUnique = inventory.isUnique(serialNumber);
+		try {
+			if(!isUnique) {
+				throw new NonUniqueNumberException();
+			}
+		}
+		catch(NonUniqueNumberException nune) {
+			System.out.println(nune.getMessage());
 			mainMenu();
 		}
 		//Enter a valid toy name

@@ -10,6 +10,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.*;
+
+import mru.tsc.exceptions.NonUniqueNumberException;
+
 import java.io.*;
 
 /**
@@ -97,6 +100,7 @@ public class FileHandling {
 			switch(option) {
 			case 'y': //fall through
 			case 'Y': database.remove(database.indexOf(selection));
+					  database.removeIf(i -> i == null || "".equals(i));
 					  System.out.println("\nItem Removed!");
 					  //Save changes to the text file
 					  try {
@@ -119,5 +123,29 @@ public class FileHandling {
 		catch (InputMismatchException imm) {
 			System.out.print("");
 		}		
+	}
+	
+	
+	public boolean isUnique(String serialNumber) {
+		ArrayList<String> database = new ArrayList<>();
+		String sn = serialNumber;
+
+		//Reads the text file and adds each line into the database ArrayList
+		try(BufferedReader reader = new BufferedReader(new FileReader(TOYS))){
+			String currentLine;
+			while((currentLine = reader.readLine()) != null) {
+				database.add(currentLine);
+			}
+		}
+		catch(IOException e) {
+			System.out.println("An error occured while reading file! Please try again.");
+		}
+		//Compares the serial number with a serial number in the ArrayList
+			for(String i : database) {
+				if(i.startsWith(sn)) {
+					return false;
+				}
+			}
+		return true;
 	}
 }
