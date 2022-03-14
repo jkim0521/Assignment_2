@@ -10,9 +10,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.*;
-
-import mru.tsc.exceptions.NonUniqueNumberException;
-
 import java.io.*;
 
 /**
@@ -125,7 +122,13 @@ public class FileHandling {
 		}		
 	}
 	
-	
+	/**
+	 * Checks to see if the user-entered serial number
+	 * does not already exist within the text file
+	 * @author Joseph Kim
+	 * @param serialNumber User-entered serial number
+	 * @return
+	 */
 	public boolean isUnique(String serialNumber) {
 		ArrayList<String> database = new ArrayList<>();
 		String sn = serialNumber;
