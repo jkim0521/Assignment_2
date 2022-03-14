@@ -1,5 +1,7 @@
 package mru.tsc.application;
 
+import java.io.IOException;
+
 import mru.tsc.controller.Navigation;
 import mru.tsc.view.Menu;
 
@@ -10,7 +12,7 @@ import mru.tsc.view.Menu;
  *
  */
 public class ToyStoreCompany {
-	public static void main(String[]args) {
+	public static void main(String[]args) throws RuntimeException, IOException {
 		Navigation navi = new Navigation();
 		Menu menu = new Menu();
 		menu.welcomeMessage();
